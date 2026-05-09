@@ -1,0 +1,161 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>One-Shot Product Agent</title>
+    <link rel="stylesheet" href="./src/styles.css" />
+  </head>
+  <body>
+    <div class="app-shell">
+      <aside class="sidebar" aria-label="Product agent setup">
+        <div class="brand">
+          <div class="brand-mark" aria-hidden="true">OS</div>
+          <div>
+            <p class="eyebrow">PM creation agent</p>
+            <h1>One-Shot Product Studio</h1>
+          </div>
+        </div>
+
+        <form id="intakeForm" class="panel" autocomplete="off">
+          <label>
+            What do you want to build or solve?
+            <textarea
+              id="ideaInput"
+              required
+              rows="7"
+              placeholder="Example: Help independent physical therapists reduce no-shows and collect post-visit outcomes without adding admin work."
+            ></textarea>
+          </label>
+
+          <div class="field-grid">
+            <label>
+              Audience
+              <input id="audienceInput" placeholder="Founders, ops teams, clinicians..." />
+            </label>
+            <label>
+              Business model
+              <select id="modelInput">
+                <option>Unknown / explore</option>
+                <option>B2B SaaS</option>
+                <option>B2C subscription</option>
+                <option>Marketplace</option>
+                <option>Usage-based</option>
+                <option>Services-led</option>
+              </select>
+            </label>
+            <label>
+              Timeline
+              <select id="timelineInput">
+                <option>2-week validation sprint</option>
+                <option>30-day MVP</option>
+                <option>Quarterly product bet</option>
+                <option>Investor-ready concept</option>
+              </select>
+            </label>
+            <label>
+              Risk tolerance
+              <select id="riskInput">
+                <option>Validate cheaply first</option>
+                <option>Balanced speed and rigor</option>
+                <option>Move fast to demo</option>
+              </select>
+            </label>
+          </div>
+
+          <label>
+            Supplementary materials
+            <textarea
+              id="materialsInput"
+              rows="4"
+              placeholder="Paste customer notes, competitor links, analytics snippets, sales feedback, or assumptions."
+            ></textarea>
+          </label>
+
+          <button type="submit" class="primary-action">Generate Product Cycle</button>
+        </form>
+
+        <section class="panel">
+          <div class="panel-heading">
+            <h2>Follow-up prompt</h2>
+            <span id="activeStageLabel">Brief</span>
+          </div>
+          <textarea id="followUpInput" rows="4" placeholder="Ask for deeper research, change the segment, tighten the MVP, or critique a design direction."></textarea>
+          <button id="applyFollowUp" class="secondary-action" type="button">Apply to Current Stage</button>
+        </section>
+      </aside>
+
+      <main class="workspace">
+        <section class="topbar">
+          <div>
+            <p class="eyebrow">End-to-end workflow</p>
+            <h2>Research first, validate early, build with receipts.</h2>
+          </div>
+          <div class="topbar-actions">
+            <button id="exportMarkdown" type="button" class="ghost-action">Export MD</button>
+            <button id="exportJson" type="button" class="ghost-action">Export JSON</button>
+          </div>
+        </section>
+
+        <section class="flow-map" aria-label="Product lifecycle stages">
+          <svg viewBox="0 0 900 160" role="img" aria-labelledby="mapTitle mapDesc">
+            <title id="mapTitle">Product creation lifecycle map</title>
+            <desc id="mapDesc">A horizontal map from intake through post-launch learning.</desc>
+            <path d="M70 80 C170 15 250 145 350 80 S530 15 630 80 S750 145 830 70" fill="none" stroke="currentColor" stroke-width="4" stroke-linecap="round" opacity="0.28" />
+            <g id="mapNodes"></g>
+          </svg>
+        </section>
+
+        <nav id="stageTabs" class="stage-tabs" aria-label="Agent stages"></nav>
+
+        <section id="artifactView" class="artifact-view" aria-live="polite">
+          <div class="empty-state">
+            <h2>Start with a rough thought.</h2>
+            <p>The agent will convert it into research, personas, validation plans, designs, PRDs, architecture, build tasks, and product metrics.</p>
+          </div>
+        </section>
+      </main>
+
+      <aside class="right-rail" aria-label="Governance and analytics">
+        <section class="panel">
+          <div class="panel-heading">
+            <h2>Decision Gates</h2>
+            <span id="gateProgress">0/11</span>
+          </div>
+          <div id="gateList" class="gate-list"></div>
+        </section>
+
+        <section class="panel">
+          <div class="panel-heading">
+            <h2>Data Stack Q&A</h2>
+            <span>post-launch</span>
+          </div>
+          <textarea id="metricsInput" rows="5" placeholder="Paste metric snippets, funnel data, cohort notes, or NFR observations."></textarea>
+          <input id="dataQuestion" placeholder="Ask about activation, retention, conversion, reliability..." />
+          <button id="askData" class="secondary-action" type="button">Answer from Metrics</button>
+          <div id="dataAnswer" class="data-answer">Metrics answers appear after the product cycle is generated.</div>
+        </section>
+
+        <section class="panel">
+          <div class="panel-heading">
+            <h2>Decision Log</h2>
+            <span id="decisionCount">0</span>
+          </div>
+          <div id="decisionLog" class="decision-log"></div>
+        </section>
+      </aside>
+    </div>
+
+    <template id="sectionTemplate">
+      <article class="artifact-section">
+        <div class="section-title">
+          <h3></h3>
+          <span></span>
+        </div>
+        <div class="section-body"></div>
+      </article>
+    </template>
+
+    <script type="module" src="./src/app.mjs"></script>
+  </body>
+</html>
